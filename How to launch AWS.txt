@@ -1,0 +1,6 @@
+01. Launch AWS Instance
+02. Select 22.04 Free tier
+03. Create pem file
+04. Allow https, http
+05. Security -> Security Groups -> Edit Inbound Rules -> Add Rule
+06. Custom TCP & Port 8080 & 0.0.0.0/0
