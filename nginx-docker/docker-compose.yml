@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest  # Specify the image name    
+    build: .             # Build the image from Dockerfile in the current directory
+    container_name: nginx-container  # Custom container name
+    ports:
+      - "4200:80"  # Maps port 4200 on host to port 80 in the container

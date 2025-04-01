@@ -1,0 +1,70 @@
+# Create Docker Image on Docker Desktop
+
+# Open Chrome Browser & log in to Docker Hub.
+
+# Open Command Prompt & log in to Docker: docker login
+
+# Tag the Docker images
+docker tag tomcat-docker-tomcat username/tomcat:latest
+
+# Push the Docker images to Docker Hub
+docker push username/tomcat:latest
+
+# Connect to AWS EC2 Instance via SSH
+ssh -i "C:\Users\Lenovo\Downloads\demo.pem" ubuntu@18.206.89.121
+
+# Install Docker on AWS EC2 Instance
+sudo kill -9 1962
+sudo killall apt apt-get
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+sudo apt-get update
+sudo apt-get install -y docker-ce
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER
+
+# Verify Docker installation
+docker --version
+
+# Grant Permissions and Restart Docker
+sudo usermod -aG docker $USER
+groups $USER
+sudo systemctl restart docker
+ls -l /var/run/docker.sock
+sudo chmod 666 /var/run/docker.sock
+groups $USER
+sudo systemctl restart docker
+
+# Log in to Docker on the EC2 Instance
+docker login
+
+# Pull the Docker images from Docker Hub
+docker pull username/tomcat:latest
+
+# Create a Network on AWS
+docker network create my-network
+
+# Run Web Application Container
+docker run -d --name tomcat-container --network my-network -p 8080:8080 username/tomcat:latest
+
+# View Docker Containers
+docker ps
+
+# Stop and Remove Specific Docker Container
+docker stop tomcat-container
+docker rm tomcat-container
+
+# View Logs of Docker Container
+docker logs tomcat-container
+
+# Remove Docker Images
+docker rmi username/tomcat:latest
+
+
+http://18.206.89.121:8080/Rays.html

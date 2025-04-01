@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  tomcat:
+    image: tomcat:latest  # Specify the image name
+    build: .              # Build the image from the Dockerfile in the current directory
+    container_name: tomcat-container  # Custom container name
+    ports:
+      - "8080:8080"  # Maps port 8080 on host to port 8080 in the container
