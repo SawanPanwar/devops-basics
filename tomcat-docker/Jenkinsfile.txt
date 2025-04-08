@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git url: 'https://github.com/SawanPanwar/devops-basics.git', branch: 'main'
+            }
+        }
+
+        stage('Deploy Using Docker Compose') {
+            steps {
+                script {
+                    dir('tomcat-docker') {
+                        bat 'docker-compose down || docker-compose.exe down'
+                        bat 'docker-compose up -d --build || docker-compose.exe up -d --build'
+                    }
+                }
+            }
+        }
+    }
+}
