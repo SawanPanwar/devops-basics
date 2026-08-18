@@ -1,0 +1,35 @@
+# 1. Update packages
+sudo apt update
+sudo apt upgrade -y
+
+# 2. Install required packages
+sudo apt install -y ca-certificates curl
+
+# 3. Add Docker GPG key
+sudo install -m 0755 -d /etc/apt/keyrings
+
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+-o /etc/apt/keyrings/docker.asc
+
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# 4. Add Docker official repository
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo ${UBUNTU_CODENAME:-$VERSION_CODENAME}) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# 5. Update repository
+sudo apt update
+
+# 6. Install Docker
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# 7. Start Docker
+sudo systemctl enable --now docker
+
+# 8. Check Docker
+sudo systemctl status docker
+
+# 9. Allow ubuntu user to use Docker without sudo
+sudo usermod -aG docker $USER
+
+# 10. Verify
+docker --version
