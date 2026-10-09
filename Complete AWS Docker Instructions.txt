@@ -1,0 +1,79 @@
+01. Launch AWS Instance
+02. Select 24.04 Free tier
+03. Create pem file
+04. Allow https, http
+05. Security -> Security Groups -> Edit Inbound Rules -> Add Rule
+06. Custom TCP & Port 8080 & 0.0.0.0/0
+
+========================================================================================
+
+# Create Docker Image on Docker Desktop
+
+# Open Chrome Browser & log in to Docker Hub.
+
+# Open Command Prompt & log in to Docker: docker login
+
+# Tag the Docker images
+docker tag tomcat:latest username/tomcat:latest
+
+# Push the Docker images to Docker Hub
+docker push username/tomcat:latest
+
+# Connect to AWS EC2 Instance via SSH
+ssh -i "C:\Users\Lenovo\Downloads\demo.pem" ubuntu@18.206.89.121
+
+# Install Docker on AWS EC2 Instance
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+-o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo ${UBUNTU_CODENAME:-$VERSION_CODENAME}) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo systemctl enable --now docker
+sudo systemctl status docker
+sudo usermod -aG docker $USER
+
+# Verify Docker installation
+docker --version
+
+# Grant Permissions and Restart Docker
+sudo usermod -aG docker $USER
+groups $USER
+sudo systemctl restart docker
+ls -l /var/run/docker.sock
+sudo chmod 666 /var/run/docker.sock
+groups $USER
+sudo systemctl restart docker
+
+# Log in to Docker on the EC2 Instance
+docker login
+
+# Pull the Docker images from Docker Hub
+docker pull username/tomcat:latest
+
+# Create a Network on AWS
+docker network create my-network
+
+# Run Web Application Container
+docker run -d --name tomcat-container --network my-network -p 8080:8080 username/tomcat:latest
+
+# View Docker Containers
+docker ps
+docker ps -a
+
+# Stop and Remove Specific Docker Container
+docker stop tomcat-container
+docker restart tomcat-container
+docker rm tomcat-container
+
+# View Logs of Docker Container
+docker logs tomcat-container
+
+# Remove Docker Images
+docker rmi username/tomcat:latest
+
+http://18.206.89.121:8080/Rays.html
